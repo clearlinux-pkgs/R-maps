@@ -4,7 +4,7 @@
 #
 Name     : R-maps
 Version  : 3.1.0
-Release  : 3
+Release  : 4
 URL      : https://cran.r-project.org/src/contrib/maps_3.1.0.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/maps_3.1.0.tar.gz
 Summary  : Draw Geographical Maps
@@ -13,6 +13,8 @@ License  : GPL-2.0
 Requires: R-maps-lib
 Requires: R-sp
 Requires: R-maptools
+Requires: R-mapproj
+BuildRequires : R-mapproj
 BuildRequires : R-maptools
 BuildRequires : R-sp
 BuildRequires : clr-R-helpers
