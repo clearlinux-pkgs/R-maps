@@ -4,16 +4,16 @@
 #
 Name     : R-maps
 Version  : 3.1.1
-Release  : 12
+Release  : 13
 URL      : https://cran.r-project.org/src/contrib/maps_3.1.1.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/maps_3.1.1.tar.gz
 Summary  : Draw Geographical Maps
 Group    : Development/Tools
 License  : GPL-2.0
 Requires: R-maps-lib
-Requires: R-sp
-Requires: R-maptools
 Requires: R-mapproj
+Requires: R-maptools
+Requires: R-sp
 BuildRequires : R-mapproj
 BuildRequires : R-maptools
 BuildRequires : R-sp
@@ -38,12 +38,15 @@ lib components for the R-maps package.
 %setup -q -c -n maps
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1484542950
+export SOURCE_DATE_EPOCH=1492800916
 
 %install
 rm -rf %{buildroot}
-export SOURCE_DATE_EPOCH=1484542950
+export SOURCE_DATE_EPOCH=1492800916
 export LANG=C
 export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
@@ -59,7 +62,7 @@ R CMD INSTALL --install-tests --built-timestamp=${SOURCE_DATE_EPOCH} --build  -l
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export _R_CHECK_FORCE_SUGGESTS_=false
 R CMD check --no-manual --no-examples --no-codoc -l %{buildroot}/usr/lib64/R/library maps
 
@@ -70,6 +73,7 @@ R CMD check --no-manual --no-examples --no-codoc -l %{buildroot}/usr/lib64/R/lib
 /usr/lib64/R/library/maps/INDEX
 /usr/lib64/R/library/maps/Meta/Rd.rds
 /usr/lib64/R/library/maps/Meta/data.rds
+/usr/lib64/R/library/maps/Meta/features.rds
 /usr/lib64/R/library/maps/Meta/hsearch.rds
 /usr/lib64/R/library/maps/Meta/links.rds
 /usr/lib64/R/library/maps/Meta/nsInfo.rds
