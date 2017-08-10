@@ -4,7 +4,7 @@
 #
 Name     : R-maps
 Version  : 3.1.1
-Release  : 17
+Release  : 18
 URL      : https://cran.r-project.org/src/contrib/maps_3.1.1.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/maps_3.1.1.tar.gz
 Summary  : Draw Geographical Maps
@@ -20,11 +20,7 @@ BuildRequires : R-sp
 BuildRequires : clr-R-helpers
 
 %description
-Notes on creating new map databases.
-1) See the references:
-Richard A. Becker, and Allan R. Wilks,
-"Maps in S",
-emph{AT\&T Bell Laboratories Statistics Research Report [93.2], 1993.}
+separate packages ('mapproj' and 'mapdata').
 
 %package lib
 Summary: lib components for the R-maps package.
@@ -42,11 +38,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1492805786
+export SOURCE_DATE_EPOCH=1502408765
 
 %install
 rm -rf %{buildroot}
-export SOURCE_DATE_EPOCH=1492805786
+export SOURCE_DATE_EPOCH=1502408765
 export LANG=C
 export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
@@ -56,7 +52,19 @@ export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export LDFLAGS="$LDFLAGS  -Wl,-z -Wl,relro"
 mkdir -p %{buildroot}/usr/lib64/R/library
+
+mkdir -p ~/.R
+mkdir -p ~/.stash
+echo "CFLAGS = $CFLAGS -march=haswell -ftree-vectorize " > ~/.R/Makevars
+echo "FFLAGS = $FFLAGS -march=haswell -ftree-vectorize " >> ~/.R/Makevars
+echo "CXXFLAGS = $CXXFLAGS -march=haswell -ftree-vectorize " >> ~/.R/Makevars
 R CMD INSTALL --install-tests --built-timestamp=${SOURCE_DATE_EPOCH} --build  -l %{buildroot}/usr/lib64/R/library maps
+for i in `find %{buildroot}/usr/lib64/R/ -name "*.so"`; do mv $i $i.avx2 ; mv $i.avx2 ~/.stash/; done
+echo "CFLAGS = $CFLAGS -ftree-vectorize " > ~/.R/Makevars
+echo "FFLAGS = $FFLAGS -ftree-vectorize " >> ~/.R/Makevars
+echo "CXXFLAGS = $CXXFLAGS -ftree-vectorize " >> ~/.R/Makevars
+R CMD INSTALL --preclean --install-tests --built-timestamp=${SOURCE_DATE_EPOCH} --build  -l %{buildroot}/usr/lib64/R/library maps
+cp ~/.stash/* %{buildroot}/usr/lib64/R/library/*/libs/ || :
 %{__rm} -rf %{buildroot}%{_datadir}/R/library/R.css
 %check
 export LANG=C
@@ -65,6 +73,7 @@ export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export _R_CHECK_FORCE_SUGGESTS_=false
 R CMD check --no-manual --no-examples --no-codoc -l %{buildroot}/usr/lib64/R/library maps
+cp ~/.stash/* %{buildroot}/usr/lib64/R/library/*/libs/ || :
 
 
 %files
@@ -137,3 +146,4 @@ R CMD check --no-manual --no-examples --no-codoc -l %{buildroot}/usr/lib64/R/lib
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/R/library/maps/libs/maps.so
+/usr/lib64/R/library/maps/libs/maps.so.avx2
