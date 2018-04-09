@@ -1,5 +1,6 @@
 # This file contains recursive sources that require this package
 R-AER
+R-DAAG
 R-DT
 R-DendSer
 R-Ecdat
@@ -25,8 +26,10 @@ R-brms
 R-broom
 R-caTools
 R-car
+R-carData
 R-caret
 R-chron
+R-clue
 R-coin
 R-colourpicker
 R-compositions
@@ -64,7 +67,6 @@ R-libcoin
 R-lme4
 R-lmtest
 R-mapproj
-R-maps
 R-maxLik
 R-memisc
 R-mi
