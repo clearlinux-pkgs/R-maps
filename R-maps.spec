@@ -4,23 +4,27 @@
 #
 Name     : R-maps
 Version  : 3.3.0
-Release  : 39
+Release  : 40
 URL      : https://cran.r-project.org/src/contrib/maps_3.3.0.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/maps_3.3.0.tar.gz
 Summary  : Draw Geographical Maps
 Group    : Development/Tools
 License  : GPL-2.0
-Requires: R-maps-lib
+Requires: R-maps-lib = %{version}-%{release}
 Requires: R-mapproj
 Requires: R-maptools
 Requires: R-sp
 BuildRequires : R-mapproj
 BuildRequires : R-maptools
 BuildRequires : R-sp
-BuildRequires : clr-R-helpers
+BuildRequires : buildreq-R
 
 %description
-separate packages ('mapproj' and 'mapdata').
+Notes on creating new map databases.
+1) See the references:
+Richard A. Becker, and Allan R. Wilks,
+"Maps in S",
+emph{AT\&T Bell Laboratories Statistics Research Report [93.2], 1993.}
 
 %package lib
 Summary: lib components for the R-maps package.
@@ -38,11 +42,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1523315334
+export SOURCE_DATE_EPOCH=1552873222
 
 %install
+export SOURCE_DATE_EPOCH=1552873222
 rm -rf %{buildroot}
-export SOURCE_DATE_EPOCH=1523315334
 export LANG=C
 export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
@@ -77,8 +81,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export _R_CHECK_FORCE_SUGGESTS_=false
-R CMD check --no-manual --no-examples --no-codoc -l %{buildroot}/usr/lib64/R/library maps|| : 
-cp ~/.stash/* %{buildroot}/usr/lib64/R/library/*/libs/ || :
+R CMD check --no-manual --no-examples --no-codoc  maps || :
 
 
 %files
@@ -108,7 +111,6 @@ cp ~/.stash/* %{buildroot}/usr/lib64/R/library/*/libs/ || :
 /usr/lib64/R/library/maps/help/paths.rds
 /usr/lib64/R/library/maps/html/00Index.html
 /usr/lib64/R/library/maps/html/R.css
-/usr/lib64/R/library/maps/libs/symbols.rds
 /usr/lib64/R/library/maps/mapdata/county.G
 /usr/lib64/R/library/maps/mapdata/county.L
 /usr/lib64/R/library/maps/mapdata/county.N
@@ -152,5 +154,3 @@ cp ~/.stash/* %{buildroot}/usr/lib64/R/library/*/libs/ || :
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/R/library/maps/libs/maps.so
-/usr/lib64/R/library/maps/libs/maps.so.avx2
-/usr/lib64/R/library/maps/libs/maps.so.avx512
