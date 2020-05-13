@@ -1,9 +1,7 @@
 # This file contains recursive sources that require this package
 R-TSP
-R-bipartite
 R-fields
 R-fossil
-R-ggplot2
 R-mapdata
 R-mapproj
 R-phytools

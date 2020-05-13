@@ -4,25 +4,17 @@
 #
 Name     : R-maps
 Version  : 3.3.0
-Release  : 51
+Release  : 52
 URL      : https://cran.r-project.org/src/contrib/maps_3.3.0.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/maps_3.3.0.tar.gz
 Summary  : Draw Geographical Maps
 Group    : Development/Tools
 License  : GPL-2.0
 Requires: R-maps-lib = %{version}-%{release}
-BuildRequires : R-mapproj
-BuildRequires : R-maptools
-BuildRequires : R-sp
 BuildRequires : buildreq-R
-BuildRequires : util-linux
 
 %description
-Notes on creating new map databases.
-1) See the references:
-Richard A. Becker, and Allan R. Wilks,
-"Maps in S",
-emph{AT\&T Bell Laboratories Statistics Research Report [93.2], 1993.}
+separate packages ('mapproj' and 'mapdata').
 
 %package lib
 Summary: lib components for the R-maps package.
@@ -34,21 +26,22 @@ lib components for the R-maps package.
 
 %prep
 %setup -q -c -n maps
+cd %{_builddir}/maps
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1571860199
+export SOURCE_DATE_EPOCH=1589407058
 
 %install
-export SOURCE_DATE_EPOCH=1571860199
+export SOURCE_DATE_EPOCH=1589407058
 rm -rf %{buildroot}
 export LANG=C.UTF-8
 export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
+export FCFLAGS="$FFLAGS -O3 -flto -fno-semantic-interposition "
+export FFLAGS="$FFLAGS -O3 -flto -fno-semantic-interposition "
 export CXXFLAGS="$CXXFLAGS -O3 -flto -fno-semantic-interposition "
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
