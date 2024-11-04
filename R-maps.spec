@@ -7,7 +7,7 @@
 #
 Name     : R-maps
 Version  : 3.4.2
-Release  : 80
+Release  : 81
 URL      : https://cran.r-project.org/src/contrib/maps_3.4.2.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/maps_3.4.2.tar.gz
 Summary  : Draw Geographical Maps
